@@ -17,8 +17,11 @@ export default function Footer() {
         <p className="mt-12 text-xs text-zinc-600">
           © {site.establishedYear} {site.brand} ({site.brandEn}) · 리니지클래식 대리육성 전문
         </p>
-        <p className="mt-2 text-xs text-zinc-700">
-          #리니지클래식 #대리육성 #부주 #아데나 #리니지클래식대리 #린클육성
+        <p className="mx-auto mt-2 max-w-2xl text-xs leading-relaxed text-zinc-700">
+          #리니지클래식대리 #리니지클래식대리육성 #리니지클래식부주 #리니지대리
+          #리니지대리육성 #리니지부주 #린클대리 #린클대리육성 #린클부주 #린클육성
+          #리니지클래식육성 #24시간부주 #시간제부주 #숙제대행 #아데나파밍
+          #리니지클래식아데나 #데스사관학교
         </p>
       </div>
     </footer>

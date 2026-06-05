@@ -12,7 +12,7 @@
 - **저장소**: https://github.com/ky87423-byte/lc_info (private 여부 확인 필요)
 - **로컬**: `C:\Users\User\lc_info`
 
-## 현재 완료된 기능 (커밋 5개, main, 워킹트리 클린)
+## 현재 완료된 기능 (커밋 6개, main, push 완료)
 
 | 기능 | 상태 | 비고 |
 |---|---|---|
@@ -26,6 +26,7 @@
 | 키워드 보강 | ✅ `652a70d` | 매트릭스 {리니지클래식\|리니지\|린클}×{대리\|대리육성\|부주}, meta keywords 18개 + 푸터 해시태그 17개 |
 | 보안 헤더 | ✅ | `next.config.ts` headers() 5종(X-Content-Type-Options/X-Frame-Options/Referrer-Policy/Permissions-Policy/HSTS) + poweredByHeader 제거, 실제 응답 헤더로 적용 확인 |
 | 프로젝트 문서 | ✅ `6bbd4d9` | CLAUDE.md / MEMORY.md / docs/worklog.md |
+| MEMORY.md 상세 구조화 | ✅ `7d9cc89` | 목적/기능/API/DB/배포/문제/다음 작업 7개 항목 체계로 재작성 (세션 2) |
 
 ## 사용 중인 API
 

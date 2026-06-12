@@ -1,6 +1,7 @@
-import { campuses, statusUpdatedAt } from "@/data/site";
+import { getStatus } from "@/lib/status";
 
-export default function StatusBoard() {
+export default async function StatusBoard() {
+  const { campuses, updatedAt } = await getStatus();
   return (
     <section id="status" className="border-b border-zinc-800 bg-zinc-900/40">
       <div className="mx-auto max-w-5xl px-4 py-20">
@@ -11,7 +12,7 @@ export default function StatusBoard() {
               잔여석은 상담 순서대로 배정됩니다.
             </p>
           </div>
-          <span className="text-xs text-zinc-500">기준일 {statusUpdatedAt}</span>
+          <span className="text-xs text-zinc-500">기준일 {updatedAt}</span>
         </div>
         <div className="grid gap-6 sm:grid-cols-2">
           {campuses.map((campus) => (

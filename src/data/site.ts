@@ -12,8 +12,7 @@ export const site = {
     "바쁜 일상 속에서도 캐릭터는 성장해야 합니다.\n데스 사관학교가 입소부터 졸업까지 책임지고 육성합니다.",
   // TODO: 실제 카카오톡 오픈채팅 링크로 교체하세요
   kakaoOpenChatUrl: "https://open.kakao.com/o/XXXXXXX",
-  // TODO: 도메인 구매 또는 Vercel 배포 후 실제 주소로 교체하세요 (예: "https://deathacademy.kr")
-  siteUrl: "https://lc-info.example.com",
+  siteUrl: "https://gameboostforge.com",
   // TODO: Google Search Console 등록 후 발급받은 인증 코드를 넣으세요 (없으면 빈 문자열 유지)
   googleSiteVerification: "",
   establishedYear: 2026,

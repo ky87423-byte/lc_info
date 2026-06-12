@@ -9,6 +9,10 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-noto-sans-kr);
+  /* 리니지클래식 다크판타지 포인트: 골드 문장 + 엠버(불티) */
+  --color-gold: #c9a227;
+  --color-ember: #ff5a1f;
+  --animate-ember: ember 6s ease-out infinite;
 }
 
 html {
@@ -21,6 +25,105 @@ body {
   font-family: var(--font-noto-sans-kr), "Apple SD Gothic Neo", "Malgun Gothic",
     sans-serif;
 }
+
+/* ── 던전 분위기: 페이지 전체 고정 오버레이 (붉은/엠버 글로우 + 비네팅) ── */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 80% 50% at 50% -8%,
+      rgba(220, 38, 38, 0.1),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 70% 45% at 50% 108%,
+      rgba(255, 90, 31, 0.06),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 45%,
+      rgba(0, 0, 0, 0.55)
+    );
+}
+
+/* ── 미세 그레인(돌/필름 텍스처) ── */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── 떠오르는 불티(엠버) ── */
+@keyframes ember {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(-140px) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.ember {
+  position: absolute;
+  bottom: -8px;
+  width: 3px;
+  height: 3px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, #ffd9a8, var(--color-ember) 55%, transparent);
+  box-shadow: 0 0 6px 1px rgba(255, 90, 31, 0.6);
+  animation: var(--animate-ember);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ember {
+    animation: none;
+    opacity: 0;
+  }
+}
+
+/* ── 히어로 배경 슬라이드쇼 (CSS 전용 크로스페이드, 이미지 12장 / 장당 5초 / 총 60초) ── */
+@keyframes heroSlide {
+  0% {
+    opacity: 0;
+  }
+  2% {
+    opacity: 1;
+  }
+  8.333% {
+    opacity: 1;
+  }
+  10.333% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  animation: heroSlide 60s linear infinite;
+}
+
+/* 크로스페이드는 단순 opacity 전환(움직임 아님)이라 모션 줄이기에서도 유지 */
 
 /* details/summary 기본 마커 제거 (Safari) */
 summary::-webkit-details-marker {

@@ -1,23 +1,32 @@
-import Image from "next/image";
 import { site, supportedTitles } from "@/data/site";
 import KakaoButton from "@/components/KakaoButton";
 
-// public/hero/01.webp ~ 12.webp (리니지클래식 에피소드 배경, scripts/optimize-hero.mjs 로 생성)
-const HERO_IMAGE_COUNT = 12;
-const SLIDE_SECONDS = 5; // 장당 노출 시간 (globals.css heroSlide 60초 = 12장 × 5초와 맞춰야 함)
+// public/hero/01.webp ~ 16.webp (리니지클래식 에피소드 + 추가 배경, scripts/optimize-hero.mjs 로 생성)
+const HERO_IMAGE_COUNT = 16;
+const SLIDE_SECONDS = 5; // 장당 노출 시간 (globals.css heroSlide 80초 = 16장 × 5초와 맞춰야 함)
+
+// public/marks/01~03.webp (로고: 리니지클래식 · SOL enchant · AION 2, scripts/make-mark.mjs 로 생성)
+const MARK_COUNT = 3;
+const MARK_SECONDS = 4; // globals.css markCycle 12초 = 3장 × 4초와 맞춰야 함
+const MARK_ALT: Record<number, string> = {
+  1: "리니지클래식",
+  2: "SOL enchant",
+  3: "AION 2",
+};
 
 // 표시 순서를 무작위로 섞는다 (정적 빌드 시점에 1회 고정 — 재빌드마다 순서가 바뀜)
-function shuffledOrder() {
-  const order = Array.from({ length: HERO_IMAGE_COUNT }, (_, i) => i + 1);
-  for (let i = order.length - 1; i > 0; i--) {
+function shuffle(n: number) {
+  const a = Array.from({ length: n }, (_, i) => i + 1);
+  for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [order[i], order[j]] = [order[j], order[i]];
+    [a[i], a[j]] = [a[j], a[i]];
   }
-  return order;
+  return a;
 }
 
 export default function Hero() {
-  const order = shuffledOrder();
+  const order = shuffle(HERO_IMAGE_COUNT);
+  const markOrder = shuffle(MARK_COUNT);
   return (
     <section className="relative overflow-hidden border-b border-zinc-800">
       {/* 배경: 어두운 베이스 */}
@@ -67,14 +76,19 @@ export default function Hero() {
       </div>
 
       <div className="relative mx-auto max-w-5xl px-4 py-24 text-center sm:py-32">
-        <Image
-          src="/mark.png"
-          alt="리니지클래식"
-          width={1123}
-          height={459}
-          priority
-          className="mx-auto mb-6 h-auto w-[280px] drop-shadow-[0_2px_18px_rgba(0,0,0,0.7)] sm:w-[360px]"
-        />
+        {/* 로고 순환 — 리니지클래식 · SOL enchant · AION 2 (순서 무작위 크로스페이드) */}
+        <div className="relative mx-auto mb-6 h-24 w-full max-w-[340px] sm:h-28 sm:max-w-[400px]">
+          {markOrder.map((num, i) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={num}
+              src={`/marks/${String(num).padStart(2, "0")}.webp`}
+              alt={MARK_ALT[num]}
+              className="mark-cycle drop-shadow-[0_2px_18px_rgba(0,0,0,0.7)]"
+              style={{ animationDelay: `${i * MARK_SECONDS}s` }}
+            />
+          ))}
+        </div>
 
         <h1 className="flex flex-col gap-4">
           <span className="text-sm font-bold tracking-[0.3em] text-red-500">

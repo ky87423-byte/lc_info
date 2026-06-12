@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { site } from "@/data/site";
+import { site, supportedTitles } from "@/data/site";
 import KakaoButton from "@/components/KakaoButton";
 
 // public/hero/01.webp ~ 12.webp (리니지클래식 에피소드 배경, scripts/optimize-hero.mjs 로 생성)
@@ -95,7 +95,20 @@ export default function Hero() {
         <p className="mx-auto mt-6 max-w-xl whitespace-pre-line text-base leading-relaxed text-zinc-300 [text-shadow:0_1px_8px_rgba(0,0,0,0.8)] sm:text-lg">
           {site.heroSub}
         </p>
-        <div className="mt-10 flex justify-center">
+        {/* 취급 종목 배지 — 리니지클래식 외 상담 가능 게임 */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+          {supportedTitles.map((title) => (
+            <span
+              key={title}
+              className="rounded-full border border-gold/30 bg-zinc-950/50 px-3 py-1 text-xs font-medium text-gold/90 backdrop-blur-sm sm:text-sm"
+            >
+              {title}
+            </span>
+          ))}
+          <span className="text-xs text-zinc-400 sm:text-sm">상담 가능</span>
+        </div>
+
+        <div className="mt-8 flex justify-center">
           <KakaoButton label="카카오톡 입소 상담" size="lg" />
         </div>
         <p className="mt-4 text-xs text-zinc-400">24시간 신속 · 친절 상담</p>

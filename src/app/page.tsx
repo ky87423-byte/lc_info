@@ -3,6 +3,7 @@ import Hero from "@/components/Hero";
 import StatusBoard from "@/components/StatusBoard";
 import TrustSection from "@/components/TrustSection";
 import Services from "@/components/Services";
+import Pricing from "@/components/Pricing";
 import Process from "@/components/Process";
 import Reviews from "@/components/Reviews";
 import Faq from "@/components/Faq";
@@ -19,6 +20,7 @@ export default function Home() {
         <StatusBoard />
         <TrustSection />
         <Services />
+        <Pricing />
         <Process />
         <Reviews />
         <Faq />

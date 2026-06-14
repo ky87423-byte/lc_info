@@ -97,6 +97,25 @@ export const services = [
   },
 ];
 
+// ── 요금 안내 ────────────────────────────────────────────────
+export type PricingPlan = {
+  period: string;
+  basis: string;
+  price: number;
+  hourly: number;
+  best?: boolean;
+};
+
+export const pricingPlans: PricingPlan[] = [
+  { period: "7일", basis: "12시간 기준", price: 462000, hourly: 5500 },
+  { period: "30일", basis: "12시간 기준", price: 1650000, hourly: 4580, best: true },
+];
+
+export const pricingNotes = [
+  "최소 7일 계약",
+  "24시간 육성 문의는 메신저로 연락 바랍니다",
+];
+
 // ── 이용 절차 ────────────────────────────────────────────────
 export const processSteps = [
   { title: "입소 상담", desc: "카카오톡으로 목표와 현재 캐릭터 상태를 알려주세요." },

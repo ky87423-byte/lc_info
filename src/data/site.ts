@@ -10,8 +10,7 @@ export const site = {
   heroTitle: "당신의 캐릭터,\n정예 생도로 키워드립니다",
   heroSub:
     "바쁜 일상 속에서도 캐릭터는 성장해야 합니다.\n데스 사관학교가 입소부터 졸업까지 책임지고 육성합니다.",
-  // TODO: 실제 카카오톡 오픈채팅 링크로 교체하세요
-  kakaoOpenChatUrl: "https://open.kakao.com/o/XXXXXXX",
+  kakaoOpenChatUrl: "https://open.kakao.com/o/s6j7Wwzi",
   siteUrl: "https://gameboostforge.com",
   // TODO: Google Search Console 등록 후 발급받은 인증 코드를 넣으세요 (없으면 빈 문자열 유지)
   googleSiteVerification: "",

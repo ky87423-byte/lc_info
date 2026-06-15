@@ -53,10 +53,10 @@ export default function Pricing() {
           ))}
         </div>
 
-        <ul className="mx-auto mt-8 max-w-md space-y-1.5 text-sm text-zinc-500">
+        <ul className="mx-auto mt-8 max-w-md space-y-2 text-base font-medium text-zinc-300">
           {pricingNotes.map((note) => (
             <li key={note} className="flex gap-2">
-              <span className="text-red-500">*</span>
+              <span className="font-bold text-red-500">*</span>
               {note}
             </li>
           ))}

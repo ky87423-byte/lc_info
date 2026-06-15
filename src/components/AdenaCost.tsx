@@ -3,7 +3,7 @@ import { consumableBasis, consumableNotes } from "@/data/site";
 import AdenaCalculator from "@/components/AdenaCalculator";
 
 export default async function AdenaCost() {
-  const { rates, live } = await getAdenaRates();
+  const { rates } = await getAdenaRates();
 
   return (
     <section id="adena" className="border-b border-zinc-800">
@@ -20,18 +20,13 @@ export default async function AdenaCost() {
 
         <AdenaCalculator rates={rates} />
 
-        <ul className="mx-auto mt-6 max-w-xl space-y-1.5 text-xs text-zinc-500">
+        <ul className="mx-auto mt-6 max-w-xl space-y-2 text-base font-medium text-zinc-300">
           {consumableNotes.map((note) => (
             <li key={note} className="flex gap-2">
-              <span className="text-red-500">*</span>
+              <span className="font-bold text-red-500">*</span>
               {note}
             </li>
           ))}
-          <li className="flex gap-2">
-            <span className="text-red-500">*</span>
-            시세 출처: gamebit.co.kr (1시간마다 갱신
-            {live ? "" : " · 현재 실시간 연동 일시 지연, 마지막 시세 기준"})
-          </li>
         </ul>
       </div>
     </section>

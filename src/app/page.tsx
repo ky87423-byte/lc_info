@@ -4,6 +4,7 @@ import StatusBoard from "@/components/StatusBoard";
 import TrustSection from "@/components/TrustSection";
 import Services from "@/components/Services";
 import Pricing from "@/components/Pricing";
+import AdenaCost from "@/components/AdenaCost";
 import Process from "@/components/Process";
 import Reviews from "@/components/Reviews";
 import Faq from "@/components/Faq";
@@ -21,6 +22,7 @@ export default function Home() {
         <TrustSection />
         <Services />
         <Pricing />
+        <AdenaCost />
         <Process />
         <Reviews />
         <Faq />

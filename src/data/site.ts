@@ -118,6 +118,25 @@ export const pricingNotes = [
 export const pricingInquiry =
   "리니지클래식 · 아이온2 · SOL 인챈트 · 메이플스토리 등 온라인게임 육성 문의 환영";
 
+// ── 소모품 비용 계산기 ────────────────────────────────────────
+// 열랩 9검6셋 기사 · 화룡의 둥지 / 몽환의 섬 기준 12시간 소비량 (수량/아데나)
+// 시세(아데나→원)는 gamebit.co.kr에서 실시간으로 가져와 환산한다 (src/lib/adena.ts).
+export type Consumable = { name: string; qtyPer12h: number; adenaPer12h: number };
+
+export const consumablesPer12h: Consumable[] = [
+  { name: "빨간 물약", qtyPer12h: 14400, adenaPer12h: 576000 },
+  { name: "용기의 물약", qtyPer12h: 144, adenaPer12h: 115200 },
+  { name: "샤르나 변신주문서", qtyPer12h: 36, adenaPer12h: 100000 },
+];
+
+export const consumableBasis = "열랩 9검6셋 기사 · 화룡의 둥지 / 몽환의 섬 기준";
+export const consumableHourOptions = [1, 12, 24];
+export const consumableNotes = [
+  "용계 · 용던 1~4층 · 본던 5~7층 사냥 시 소모 아데나는 줄지만 경험치 효율은 화둥/몽섬보다 낮습니다.",
+  "캐릭터 레벨 · 장비와 본주님이 원하시는 방향에 맞춰 진행합니다.",
+  "예시 기준 수치이며 실제 소비량은 사냥터 · 캐릭터에 따라 달라집니다.",
+];
+
 // ── 이용 절차 ────────────────────────────────────────────────
 export const processSteps = [
   { title: "입소 상담", desc: "카카오톡으로 목표와 현재 캐릭터 상태를 알려주세요." },

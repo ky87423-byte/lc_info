@@ -23,6 +23,14 @@ export default function Header() {
         </nav>
         <KakaoButton label="입소 상담" />
       </div>
+
+      {/* 모바일 전용 가로 메뉴 — 헤더 안에 두어 상단 고정, 누르면 해당 섹션으로 스크롤 */}
+      <nav className="flex items-center justify-around gap-1 overflow-x-auto border-t border-zinc-800/70 px-2 py-2 text-xs font-medium text-zinc-300 md:hidden">
+        <a href="#status" className="whitespace-nowrap rounded px-2 py-1 transition hover:text-white">운영 현황</a>
+        <a href="#services" className="whitespace-nowrap rounded px-2 py-1 transition hover:text-white">서비스</a>
+        <a href="#pricing" className="whitespace-nowrap rounded px-2 py-1 transition hover:text-white">요금</a>
+        <a href="#process" className="whitespace-nowrap rounded px-2 py-1 transition hover:text-white">이용 절차</a>
+      </nav>
     </header>
   );
 }

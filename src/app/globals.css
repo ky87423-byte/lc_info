@@ -17,6 +17,14 @@
 
 html {
   scroll-behavior: smooth;
+  /* 고정 헤더에 가리지 않도록 앵커 이동 시 상단 여백 — 모바일은 2단 헤더라 더 크게 */
+  scroll-padding-top: 6.5rem;
+}
+
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: 4.5rem;
+  }
 }
 
 body {

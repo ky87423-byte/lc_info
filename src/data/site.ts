@@ -110,6 +110,8 @@ export const pricingPlans: PricingPlan[] = [
 export const pricingNotes = [
   "최소 7일 계약",
   "24시간 육성 문의는 메신저로 연락 바랍니다",
+  "아이템 · 게임머니 본주 귀속",
+  "빨간물약 · 변신주문서 · 용기&와퍼 버프 본주 지원",
 ];
 
 // 요금 섹션 안내 — 취급 게임 + 육성 문의 (리니지클래식 외 종목)

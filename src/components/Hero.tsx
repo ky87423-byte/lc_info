@@ -109,17 +109,19 @@ export default function Hero() {
         <p className="mx-auto mt-6 max-w-xl whitespace-pre-line text-base leading-relaxed text-zinc-300 [text-shadow:0_1px_8px_rgba(0,0,0,0.8)] sm:text-lg">
           {site.heroSub}
         </p>
-        {/* 취급 종목 배지 — 리니지클래식 외 상담 가능 게임 */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+        {/* 취급 종목 배지 — 리니지클래식 외 상담 가능 게임 (PC·모바일 강조) */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2.5">
           {supportedTitles.map((title) => (
             <span
               key={title}
-              className="rounded-full border border-gold/30 bg-zinc-950/50 px-3 py-1 text-xs font-medium text-gold/90 backdrop-blur-sm sm:text-sm"
+              className="rounded-full border border-gold/60 bg-gold/10 px-4 py-1.5 text-sm font-bold text-gold shadow-[0_0_18px_-3px_rgba(201,162,39,0.6)] backdrop-blur-sm sm:text-base"
             >
               {title}
             </span>
           ))}
-          <span className="text-xs text-zinc-400 sm:text-sm">상담 가능</span>
+          <span className="text-sm font-bold text-gold/90 [text-shadow:0_0_12px_rgba(201,162,39,0.5)] sm:text-base">
+            상담 가능
+          </span>
         </div>
 
         <div className="mt-8 flex justify-center">

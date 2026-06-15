@@ -80,3 +80,74 @@
 
 - 세션 1의 미완료 목록과 동일 (코드 변경 없음, 문서만 정비)
 - 1~3번(배포/카톡 링크/Search Console)은 사용자 입력 필요
+
+## 2026-06-06 ~ 06-14 — 배포·운영 기능 (로그 미작성 구간)
+
+> 이 구간은 worklog에 따로 기록 안 됐음. git log 기준 요약 (상세는 각 커밋 참조):
+
+- 배포: **Shinjiru VPS(`111.90.148.135`) + 도메인 `gameboostforge.com`** 로 실제 배포 (Vercel 아님).
+  next start(3000) + PM2 + Nginx + Certbot(HTTPS). 같은 VPS에 lc_vn(gmhm365.com)도 co-host.
+- `ed0ab52` 관리자 페이지 `/admin` — 운영현황(캠퍼스 PC·잔여석) 실시간 조정. 비번+쿠키 로그인, 저장은 `.data/status.json`. → **사이트가 부분 동적으로 바뀜**(StatusBoard가 저장소 읽음, 저장 시 revalidatePath).
+- `4d7da73` 히어로 로고 3종 순환 + 배경 슬라이드쇼 16장
+- `8aebd86` 글로벌 캠퍼스 → 베트남 캠퍼스 + 디스코드 실시간 중계 신뢰요소
+- `1de34a3` 카카오톡 오픈채팅 실제 링크 적용 (CTA 활성화, `https://open.kakao.com/o/s6j7Wwzi`)
+- `f04bb96` 요금표 추가 (7일 462,000원 / 30일 1,650,000원, 12시간 기준) + 메뉴/메인 노출
+
+## 2026-06-15 — 콘텐츠 수정 + 배포 인프라 정비 (세션)
+
+### 1. 계약서 문구 전체 제거 (`3bf3485`)
+
+- 사용자 요청 "홈페이지 계약서 문구 빼버려".
+- `site.ts`: trustItems "계약서 작성" 항목 삭제, processSteps "계약서 작성" 단계 삭제, 후기 1건·FAQ 2건 리워딩.
+- `layout.tsx`: meta description에서 "계약서 작성" 제거.
+- 라이브 검증: 서빙 HTML에 "계약서" 0회 확인.
+
+### 2. SSH 무비밀번호 배포 키 구축 (인프라, 커밋 없음)
+
+- 기존 `id_ed25519`(코멘트 mikrotik-key)는 **passphrase가 걸려** 자동배포 불가였음.
+- 전용 키 **`C:\Users\User\.ssh\lc_info_deploy`(passphrase 없음)** 새로 생성 → pub키를 서버 `/root/.ssh/authorized_keys`에 등록.
+- 트러블슈팅: PowerShell에서 긴 한 줄 붙여넣기가 줄바꿈(`>>`)되며 명령이 잘리는 문제로 여러 번 실패 → 짧은 명령으로 해결.
+- **접속 시 주의**: 기본 `ssh`는 passphrase 걸린 id_ed25519를 먼저 시도해 막힘 → 반드시 `-i ...lc_info_deploy -o IdentitiesOnly=yes` 지정.
+
+### 3. PM2 다운 복구 + 자동시작 등록 (인프라)
+
+- 배포 중 발견: **PM2 데몬이 죽어 lc_info·lc_vn 둘 다 다운** 상태였음 (포트 3000/3001 리스너 없음).
+- 원인: `pm2 startup`(systemd) 미설정 → 재부팅 시 자동복구 안 됨.
+- 조치: 둘 다 재기동 → `pm2 save` → `pm2 startup systemd -u root --hp /root`로 `pm2-root.service` enabled. 이제 재부팅 살아남음.
+
+### 4. 히어로 슬라이드쇼 높이 25% 축소 (`7be0775`)
+
+- `Hero.tsx` 콘텐츠 패딩 `py-24 sm:py-32` → `py-18 sm:py-24` (정확히 25%↓). 높이는 고정값 없이 패딩으로 결정됨.
+
+### 5. 요금 섹션 안내 문구 추가 (`3b38e28`)
+
+- `site.ts`에 `pricingInquiry` 추가, `Pricing.tsx` 헤더 아래 골드 콜아웃 박스로 렌더.
+- 문구: "리니지클래식 · 아이온2 · SOL 인챈트 · 메이플스토리 등 온라인게임 육성 문의 환영".
+- 메이플스토리는 **요금 섹션에만** 넣음 (히어로 배지·FAQ엔 아직 없음 — 추가 가능).
+
+### 6. 모바일 상단 고정 가로 메뉴 (`5e39841`)
+
+- 기존 nav는 `hidden md:flex`라 모바일에 메뉴 없었음.
+- `Header.tsx`에 `md:hidden` 가로 메뉴 행 추가(헤더 안 → 함께 상단 고정): 운영 현황·서비스·요금·이용 절차 앵커.
+- `globals.css`에 `scroll-padding-top`(모바일 6.5rem / md 4.5rem) 추가 — 앵커 이동 시 고정 헤더에 안 가리게.
+
+### 7. 히어로 취급종목 골드 배지 강조 (`e03b04c`)
+
+- `Hero.tsx` 배지: 글자 ↑(text-sm/sm:text-base), `font-bold`, 테두리 gold/30→gold/60, 골드 배경 틴트 + 골드 글로우. "상담 가능"도 강조.
+
+### 배포 방법 (다음 세션은 이걸로 바로)
+
+```
+ssh -i "$env:USERPROFILE\.ssh\lc_info_deploy" -o IdentitiesOnly=yes -o BatchMode=yes -p 20203 root@111.90.148.135 "cd /var/www/lc_info && git pull && npm run build && pm2 reload lc_info"
+```
+
+- 콘텐츠/CSS 변경: 위 한 줄(pull→build→reload)이면 무중단 반영. `npm ci`는 의존성 변경 시에만.
+- 검증: `curl -s -o /dev/null -w '%{http_code}' https://gameboostforge.com` → 200.
+- PowerShell에서 사용자에게 명령 줄 때는 **짧게 끊어서** 줄 것(긴 줄 붙여넣기 줄바꿈 이슈).
+
+### 다음 세션 할 일
+
+- [ ] Google Search Console 등록 + `site.ts`의 `googleSiteVerification` 입력 (아직 `""`) + sitemap 제출
+- [ ] (선택) 메이플스토리를 히어로 취급종목 배지·FAQ에도 추가할지 결정
+- [ ] (운영) StatusBoard 수치는 `/admin`에서 갱신 — 정기 갱신 루틴
+- [ ] 서버 `.env.local`의 `ADMIN_PASSWORD` 설정 상태는 유지되고 있는지 가끔 확인(없으면 기본 changeme 위험)

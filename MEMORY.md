@@ -1,90 +1,92 @@
 # lc_info 프로젝트 메모리
 
-> 최종 업데이트: 2026-06-05
+> 최종 업데이트: 2026-06-15
 
 ## 프로젝트 목적
 
 - **무엇**: 리니지클래식 **대리육성** 서비스 홍보용 원페이지 랜딩 사이트
-- **목표**: 검색(SEO) 유입 → 카카오톡 오픈채팅 상담으로 전환시키는 것이 사이트의 유일한 전환 목표
-  - 업계 관행상 가격 비공개 → 모든 CTA가 카톡 상담으로 수렴
+- **목표**: 검색(SEO) 유입 → 카카오톡 오픈채팅 상담으로 전환 (사이트 유일한 전환 목표)
+  - 업계 관행상 가격 비공개였으나 현재는 **요금표 공개**(7일/30일) + 카톡 상담 병행
 - **브랜드**: 데스 사관학교 (DEATH ACADEMY) — 사관학교 컨셉 카피 유지 (입소 상담/캠퍼스/생도/졸업)
-- **참고 모델**: 린클고등학교 스타일 (다크 톤 + 실시간 PC 현황판 + 계약서·신뢰 요소 강조)
-- **저장소**: https://github.com/ky87423-byte/lc_info (private 여부 확인 필요)
+- **참고 모델**: 린클고등학교 스타일 (다크 톤 + 실시간 PC 현황판 + 신뢰 요소 강조)
+- **저장소**: https://github.com/ky87423-byte/lc_info (main 브랜치)
 - **로컬**: `C:\Users\User\lc_info`
+- **라이브**: https://gameboostforge.com (배포 완료)
 
-## 현재 완료된 기능 (커밋 6개, main, push 완료)
+## 배포 상태 ★ (다음 세션 핵심)
 
-| 기능 | 상태 | 비고 |
-|---|---|---|
-| 랜딩 페이지 v1 (9개 섹션) | ✅ `627527d` | Header(sticky)/Hero/StatusBoard/TrustSection(4)/Services(육성·부주·파밍·이벤트)/Process(5단계)/Reviews(3)/Faq(5, 네이티브 `<details>`)/Footer |
-| 콘텐츠 단일 소스화 | ✅ | 모든 문구/수치/링크 → `src/data/site.ts` 한 파일 |
-| 전 컴포넌트 서버 컴포넌트 | ✅ | client 컴포넌트 0개, 모든 라우트 정적 prerender |
-| SEO 메타데이터 | ✅ `070aa24` | metadataBase/canonical/robots/OG/Twitter/title template (`layout.tsx`) |
-| sitemap.xml / robots.txt | ✅ | `sitemap.ts` / `robots.ts` 자동 생성, 빌드 시 정적 출력 확인 |
-| 구조화 데이터 | ✅ | `JsonLd.tsx` — Organization + FAQPage (FAQ 리치 결과 노출용) |
-| OG 공유 이미지 | ✅ | `opengraph-image.tsx` — **영문만** (ImageResponse 한글 미지원) |
-| 키워드 보강 | ✅ `652a70d` | 매트릭스 {리니지클래식\|리니지\|린클}×{대리\|대리육성\|부주}, meta keywords 18개 + 푸터 해시태그 17개 |
-| 보안 헤더 | ✅ | `next.config.ts` headers() 5종(X-Content-Type-Options/X-Frame-Options/Referrer-Policy/Permissions-Policy/HSTS) + poweredByHeader 제거, 실제 응답 헤더로 적용 확인 |
-| 프로젝트 문서 | ✅ `6bbd4d9` | CLAUDE.md / MEMORY.md / docs/worklog.md |
-| MEMORY.md 상세 구조화 | ✅ `7d9cc89` | 목적/기능/API/DB/배포/문제/다음 작업 7개 항목 체계로 재작성 (세션 2) |
+- ✅ **배포 완료** — Shinjiru VPS(`111.90.148.135`) + 도메인 `gameboostforge.com`, HTTPS(Let's Encrypt).
+  - 구성: `next start`(포트 3000) + PM2(프로세스명 `lc_info`) + Nginx 리버스 프록시 + Certbot.
+  - 정적 export 아님 — `/admin` 동적 + 서버액션 사용 때문에 Node 서버로 구동.
+  - 서버 코드 경로: `/var/www/lc_info`. **SSH 포트 `20203`**(22 아님).
+  - 같은 VPS에 lc_vn(gmhm365.com, 포트 3001) co-host.
+- **배포 명령 (이거 그대로 사용)**:
+  ```
+  ssh -i "$env:USERPROFILE\.ssh\lc_info_deploy" -o IdentitiesOnly=yes -o BatchMode=yes -p 20203 root@111.90.148.135 "cd /var/www/lc_info && git pull && npm run build && pm2 reload lc_info"
+  ```
+  - 무비밀번호 키 = `C:\Users\User\.ssh\lc_info_deploy`(passphrase 없음). 기본 `ssh`는 passphrase 걸린 `id_ed25519`를 먼저 시도해 막히므로 **반드시 `-i`+`IdentitiesOnly=yes`** 지정.
+  - 의존성 바뀌었을 때만 `npm ci` 추가. 검증: `curl https://gameboostforge.com` → 200.
+  - PM2 startup(systemd) 등록 완료 → 재부팅 시 자동복구됨.
+- ⚠️ 서버 `/var/www/lc_info/.env.local`의 `ADMIN_PASSWORD` 필수(없으면 `/admin`이 기본값 changeme로 뚫림). gitignore라 배포 안 됨.
 
-## 사용 중인 API
+## 현재 완료된 기능
 
-- **외부 API 없음.** 폼 전송/결제/로그인 전부 없음 — 유일한 외부 동선은 카카오톡 오픈채팅 링크(`<a href>`)
-- Next.js 16.2.7 (App Router, Turbopack) + React 19 + TypeScript + Tailwind CSS 4 (`@theme inline`)
-- 폰트: Noto Sans KR (`next/font/google` — 빌드 시 self-host)
-- StatusBoard의 "실시간" 현황은 실제 실시간이 아님 — `site.ts`의 정적 수치 + `statusUpdatedAt` 날짜 수동 갱신 방식
+| 기능 | 비고 |
+|---|---|
+| 랜딩 페이지 (섹션) | Header(sticky)/Hero/StatusBoard/TrustSection/Services/**Pricing**/Process/Reviews/Faq/Footer |
+| 콘텐츠 단일 소스화 | 모든 문구/수치/링크 → `src/data/site.ts` (단, `/admin` 운영현황은 `.data/status.json`) |
+| SEO 메타데이터 | metadataBase/canonical/robots/OG/Twitter/title (`layout.tsx`) |
+| sitemap.xml / robots.txt / JsonLd | 자동 생성 (Organization + FAQPage) |
+| 보안 헤더 | `next.config.ts` headers() 5종 + poweredByHeader 제거 |
+| 카카오톡 CTA | `kakaoOpenChatUrl` = `https://open.kakao.com/o/s6j7Wwzi` (실제 링크, 활성) |
+| 요금표 | `f04bb96` — 7일 462,000 / 30일 1,650,000원(12시간 기준), 30일이 시급 최저가 |
+| 관리자 페이지 `/admin` | `ed0ab52` — 운영현황 실시간 조정, 비번+쿠키 로그인, 저장 `.data/status.json` |
+| 베트남 캠퍼스 + 디스코드 중계 | `8aebd86` — 글로벌→베트남, 신뢰요소 추가 |
+| 히어로 로고 순환 + 슬라이드쇼 | `4d7da73` — 로고 3종 순환, 배경 16장 |
+| 계약서 문구 전면 제거 | `3bf3485` (2026-06-15) — 신뢰요소/절차/후기/FAQ/메타에서 삭제 |
+| 히어로 높이 25% 축소 | `7be0775` (2026-06-15) |
+| 요금 안내 문구 | `3b38e28` (2026-06-15) — `pricingInquiry` 골드 콜아웃 |
+| 모바일 상단 고정 가로 메뉴 | `5e39841` (2026-06-15) — `Header.tsx` md:hidden 행 + scroll-padding |
+| 히어로 골드 배지 강조 | `e03b04c` (2026-06-15) |
 
-## DB 상태
+## 기술 스택 / API
 
-- **DB 없음.** 완전 정적 사이트 — 모든 데이터는 `src/data/site.ts` 하드코딩
-- 향후에도 DB 도입 계획 없음 (현황 수치 갱신 = site.ts 수정 후 재배포)
+- Next.js 16.2.7 (App Router, Turbopack) + React 19 + TypeScript + Tailwind CSS 4 (`@theme inline`, `globals.css`)
+- 폰트: Noto Sans KR (`next/font/google`)
+- **외부 API/DB 없음.** 결제/폼/로그인 없음. 유일한 외부 동선 = 카톡 오픈채팅 링크.
+- `/admin` 한정으로 서버액션 + 파일 저장(`.data/status.json`) 사용 → 완전 정적은 아님(부분 동적).
 
-## 배포 상태
+## 미해결 / placeholder
 
-- ❌ **미배포** — Vercel 배포 예정 (지난 세션에서 사용자에게 제안한 상태, 미확정)
-- 도메인 미구매 — `siteUrl` = `https://lc-info.example.com` (placeholder)
-- Google Search Console 미등록 — `googleSiteVerification` = `""` (빈 값이면 메타태그 미출력)
-- 로컬 검증만 완료: `npm run build` 통과, dev 서버 HTTP 200 확인
+1. `googleSiteVerification` = `""` — Google Search Console 미등록. 등록 후 인증 코드 입력 필요.
+2. (선택) 메이플스토리는 요금 섹션에만 있음 — 히어로 취급종목 배지(`supportedTitles`)·FAQ엔 없음.
+3. StatusBoard 수치 정기 갱신 루틴 부재 — 방치 시 "실시간 현황판" 신뢰 역효과. `/admin`에서 갱신.
+4. 빌드 시 Turbopack 경고 1건(`next.config.ts` NFT 트레이스, `status.ts`→`admin/page.tsx` 경유) — 빌드는 정상 통과, 기능 영향 없음.
 
-## 해결 안 된 문제 / placeholder
+## 다음 작업 순서
 
-1. `kakaoOpenChatUrl` = `https://open.kakao.com/o/XXXXXXX` — **실제 오픈채팅 미개설**. 배포해도 CTA가 죽은 링크
-2. `siteUrl` placeholder — canonical/OG/sitemap이 전부 가짜 도메인 기준으로 생성되는 중
-3. OG 이미지 한글 불가 — ImageResponse 기본 폰트 한계. 한글 필요 시 폰트 파일 fetch 방식으로 개선 필요
-4. 우사시육성단 — 검색으로 못 찾음. 사용자에게 URL 요청한 상태 (받으면 경쟁 분석 추가)
-5. StatusBoard 수치 갱신 루틴 없음 — 방치하면 "실시간 현황판"의 신뢰 요소가 역효과
+1. Google Search Console 등록 → `googleSiteVerification` 입력 → sitemap 제출
+2. (선택) 메이플스토리를 `supportedTitles`/FAQ에도 추가할지 결정
+3. (운영) `/admin`에서 캠퍼스 PC·잔여석 정기 갱신
+4. (장기) 가이드형 콘텐츠 페이지 — 린서포트 SEO 전략 (클래스별 육성 가이드 등)
 
-## 다음 작업 순서 (우선순위순)
+## 작업 시 주의
 
-1. **Vercel 배포** → `*.vercel.app` 주소 확보 → `siteUrl` 교체 → 재배포
-2. **카카오톡 오픈채팅 개설** (사용자 액션) → `kakaoOpenChatUrl` 교체
-3. **Google Search Console 등록** → 인증 코드 입력 → sitemap 제출
-4. (선택) 커스텀 도메인 구매 → `siteUrl` 재교체
-5. (장기) 가이드형 콘텐츠 페이지 — 린서포트 SEO 전략 (클래스별 육성 가이드 등)
-6. (장기) StatusBoard 수치 정기 갱신 운영 루틴 수립
-
-※ 1~3번은 실제 링크/계정/인증 코드가 필요 → 사용자 입력 없이는 진행 불가
+- 콘텐츠 수정은 무조건 `src/data/site.ts` — 컴포넌트 하드코딩 금지.
+- AGENTS.md 경고: Next.js 16은 학습 데이터와 다를 수 있음 — `node_modules/next/dist/docs/` 먼저 확인.
+- OG 이미지(`opengraph-image.tsx`)는 한글 렌더링 불가(ImageResponse 기본 폰트) — 영문 유지.
+- 커밋 전 `npm run build`(이 디렉토리에서) 통과 확인.
+- 배포 후 라이브 검증까지(`curl` 200 + 필요시 grep으로 문구 확인).
+- PowerShell에서 사용자에게 ssh 명령 줄 때 **짧게 끊어서** — 긴 한 줄은 붙여넣기 시 줄바꿈(`>>`)으로 잘림.
 
 ## 사용자 결정 사항
 
-- 사이트 스타일: **린클고등학교 방식** 선택 (다크 + 실시간 현황판 + 신뢰 요소)
-- 브랜드명: **데스 사관학교** (사용자가 직접 지정)
-- 연락 수단: **카카오톡 오픈채팅만** (전화/텔레그램 안 씀)
-- 도메인: 아직 없음 — placeholder로 진행하기로 함
-- 디자인 톤: zinc-950 배경 + red-500/600 포인트 + 카카오 옐로(#FEE500) CTA
+- 사이트 스타일: 린클고등학교 방식(다크 + 실시간 현황판 + 신뢰 요소)
+- 브랜드명: 데스 사관학교 / 연락 수단: 카카오톡 오픈채팅만
+- 디자인 톤: zinc-950 배경 + red-500/600 포인트 + 카카오 옐로(#FEE500) CTA + 골드(#c9a227) 액센트
 
 ## 참고 경쟁 업체
 
 - 린클고등학교: https://xn--299a9h35r28euq8a4eg.com/ — 구조/디자인 참고 원본
-- 로렌팀: https://www.xn--9i1b5dx0m0qcda032ltwli6m.com/ — 해시태그 9개 패턴 차용
-- 린서포트: https://xn--9i1b5d86sca296r.com/ — 가이드형 콘텐츠 SEO 전략 (향후 참고)
-- 우사시육성단: **검색으로 못 찾음** — 사용자에게 URL 요청한 상태
-
-## 작업 시 주의
-
-- 콘텐츠 수정은 무조건 `src/data/site.ts` — 컴포넌트 하드코딩 금지
-- AGENTS.md 경고: Next.js 16은 학습 데이터와 다를 수 있음 — `node_modules/next/dist/docs/` 먼저 확인
-- OG 이미지(`opengraph-image.tsx`)는 한글 렌더링 불가 (ImageResponse 기본 폰트) — 영문 유지
-- 커밋 전 `npm run build` 통과 확인
-- meta keywords는 구글이 무시 — 실질 SEO는 푸터 해시태그(본문 텍스트)/title/description/JSON-LD가 담당
+- 로렌팀: https://www.xn--9i1b5dx0m0qcda032ltwli6m.com/ — 해시태그 패턴 차용
+- 린서포트: https://xn--9i1b5d86sca296r.com/ — 가이드형 콘텐츠 SEO 전략(향후 참고)

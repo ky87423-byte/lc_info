@@ -1,4 +1,4 @@
-import { pricingPlans, pricingNotes } from "@/data/site";
+import { pricingPlans, pricingNotes, pricingInquiry } from "@/data/site";
 import KakaoButton from "@/components/KakaoButton";
 
 export default function Pricing() {
@@ -9,6 +9,9 @@ export default function Pricing() {
           <h2 className="text-2xl font-extrabold sm:text-3xl">요금 안내</h2>
           <p className="mt-2 text-sm text-zinc-400">
             투명한 정찰제 · 기간이 길수록 시급이 저렴합니다.
+          </p>
+          <p className="mx-auto mt-5 max-w-2xl rounded-lg border border-gold/30 bg-zinc-950/50 px-4 py-2.5 text-sm font-medium text-gold/90">
+            {pricingInquiry}
           </p>
         </div>
 

@@ -75,7 +75,7 @@ export default function Hero() {
         ))}
       </div>
 
-      <div className="relative mx-auto max-w-5xl px-4 py-24 text-center sm:py-32">
+      <div className="relative mx-auto max-w-5xl px-4 py-18 text-center sm:py-24">
         {/* 로고 순환 — 리니지클래식 · SOL enchant · AION 2 (순서 무작위 크로스페이드) */}
         <div className="relative mx-auto mb-6 h-24 w-full max-w-[340px] sm:h-28 sm:max-w-[400px]">
           {markOrder.map((num, i) => (

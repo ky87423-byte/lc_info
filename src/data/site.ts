@@ -124,14 +124,16 @@ export const pricingInquiry =
 // unitAdena = 개당 아데나(원가). 계산기에서 회원이 직접 수정 가능, 여기 값은 기본값.
 export type Consumable = { name: string; qtyPer12h: number; unitAdena: number };
 
+// 8분에 1개 → 12시간 90개 (엘븐 와퍼). 개당 아데나 0인 항목은 회원이 직접 입력.
 export const consumablesPer12h: Consumable[] = [
   { name: "빨간 물약", qtyPer12h: 14400, unitAdena: 40 },
-  { name: "용기의 물약", qtyPer12h: 144, unitAdena: 800 },
-  { name: "샤르나 변신주문서", qtyPer12h: 36, unitAdena: 2000 },
+  { name: "용기의 물약", qtyPer12h: 144, unitAdena: 0 },
+  { name: "엘븐 와퍼", qtyPer12h: 90, unitAdena: 0 },
+  { name: "샤르나 변신주문서", qtyPer12h: 36, unitAdena: 0 },
 ];
 
 export const consumableBasis =
-  "열렙모드 9검6셋 30레벨 기준 기사 · 화룡의 둥지 / 몽환의 섬";
+  "열랩모드 9검6셋 30레벨 기사 · 화룡의 둥지 / 몽환의 섬 기준";
 export const consumableHourOptions = [1, 12, 24];
 export const consumableNotes = [
   "용계 · 용던 1~4층 · 본던 5~7층 사냥 시 소모 아데나는 줄지만 경험치 효율은 화둥/몽섬보다 낮습니다.",

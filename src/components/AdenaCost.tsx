@@ -12,10 +12,12 @@ export default async function AdenaCost() {
           <h2 className="text-2xl font-extrabold sm:text-3xl">
             내 서버 소모품 비용 계산기
           </h2>
-          <p className="mt-2 text-sm text-zinc-400">
-            실사냥 시 들어가는 소모품 — 데스 사관학교는 <strong className="text-gold/90">전량 본주 지원</strong>으로 진행합니다.
+          <p className="mx-auto mt-3 max-w-2xl text-base font-bold text-gold sm:text-lg">
+            {consumableBasis}
           </p>
-          <p className="mt-1 text-xs text-zinc-500">{consumableBasis}</p>
+          <p className="mt-1.5 text-sm text-zinc-400">
+            열랩모드에서만 소비되는 비용이며, 참고용입니다.
+          </p>
         </div>
 
         <AdenaCalculator rates={rates} />

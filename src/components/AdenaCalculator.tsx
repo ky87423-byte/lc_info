@@ -125,7 +125,7 @@ export default function AdenaCalculator({ rates }: { rates: AdenaRate[] }) {
       </table>
 
       <p className="mt-3 text-right text-xs text-zinc-500">
-        개당 아데나는 직접 수정할 수 있습니다
+        개당 아데나(원가)를 직접 입력하면 비용이 계산됩니다
       </p>
     </div>
   );

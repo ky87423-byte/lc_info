@@ -21,10 +21,12 @@ export default function AdenaCalculator({ rates }: { rates: AdenaRate[] }) {
   const rows = consumablesPer12h.map((c, i) => {
     const qty = c.qtyPer12h * factor;
     const unit = unitAdena[i] || 0;
-    const cost = (qty * unit * price) / 10000;
-    return { name: c.name, qty, unit, cost };
+    const adena = qty * unit;
+    const cost = (adena * price) / 10000;
+    return { name: c.name, qty, unit, adena, cost };
   });
   const total = rows.reduce((sum, r) => sum + r.cost, 0);
+  const totalAdena = rows.reduce((sum, r) => sum + r.adena, 0);
 
   const setUnit = (i: number, raw: string) => {
     const v = Number(raw.replace(/[^0-9]/g, ""));
@@ -110,8 +112,13 @@ export default function AdenaCalculator({ rates }: { rates: AdenaRate[] }) {
             <td className="pt-3 font-bold text-white" colSpan={2}>
               {hours}시간 합계
             </td>
-            <td className="pt-3 text-right text-lg font-extrabold text-gold">
-              약 {won(total)}원
+            <td className="pt-3 text-right">
+              <span className="block text-xs font-medium text-zinc-400">
+                {num(totalAdena)} 아데나
+              </span>
+              <span className="text-lg font-extrabold text-gold">
+                약 {won(total)}원
+              </span>
             </td>
           </tr>
         </tfoot>

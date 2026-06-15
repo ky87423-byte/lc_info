@@ -35,7 +35,7 @@ export default function AdenaCalculator({ rates }: { rates: AdenaRate[] }) {
     <div className="mx-auto mt-8 max-w-xl rounded-xl border border-zinc-800 bg-zinc-950 p-5 sm:p-6">
       {/* 선택: 서버 + 시간 */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <label className="flex items-center gap-2 text-sm">
+        <div className="flex flex-wrap items-center gap-2 text-sm">
           <span className="font-semibold text-zinc-300">서버</span>
           <select
             value={server}
@@ -48,7 +48,10 @@ export default function AdenaCalculator({ rates }: { rates: AdenaRate[] }) {
               </option>
             ))}
           </select>
-        </label>
+          <span className="rounded-md bg-gold/10 px-2 py-0.5 text-xs font-bold text-gold">
+            1만 아데나 {won(price)}원
+          </span>
+        </div>
 
         <div className="inline-flex rounded-lg border border-zinc-700 p-0.5">
           {consumableHourOptions.map((h) => (

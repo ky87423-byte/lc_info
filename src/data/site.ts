@@ -17,6 +17,13 @@ export const site = {
   establishedYear: 2026,
 };
 
+// ── 방문자 분석 (Umami 자체호스팅) ───────────────────────────
+// 대시보드: https://stats.gameboostforge.com (관리자 계정은 별도 보관)
+export const analytics = {
+  umamiSrc: "https://stats.gameboostforge.com/script.js",
+  umamiWebsiteId: "b49a87d0-bbfd-455d-8c0a-0131525d64e1",
+};
+
 // ── 취급 게임/종목 ────────────────────────────────────────────
 // 메인은 리니지클래식, 그 외 상담 가능한 종목을 함께 노출
 export const supportedTitles = ["리니지클래식", "아이온2", "SOL 인챈트"];

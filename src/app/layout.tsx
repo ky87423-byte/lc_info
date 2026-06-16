@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
-import { site } from "@/data/site";
+import { site, analytics } from "@/data/site";
 
 const notoSansKr = Noto_Sans_KR({
   variable: "--font-noto-sans-kr",
@@ -80,7 +81,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${notoSansKr.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        {children}
+        <Script
+          src={analytics.umamiSrc}
+          data-website-id={analytics.umamiWebsiteId}
+          strategy="afterInteractive"
+          defer
+        />
+      </body>
     </html>
   );
 }
